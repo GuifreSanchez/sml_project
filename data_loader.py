@@ -1,16 +1,5 @@
 from imports import * 
 
-def get_usps_data():
-    path = 'datasets/usps.h5'
-    with h5py.File(path, 'r') as hf:
-            train = hf.get('train')
-            X_tr = train.get('data')[:]
-            y_tr = train.get('target')[:]
-            test = hf.get('test')
-            X_te = test.get('data')[:]
-            y_te = test.get('target')[:]
-    return X_tr, y_tr, X_te, y_te
-
 
 # data sets names: 
 bc = "breast-cancer"
@@ -84,13 +73,61 @@ def synth_moons(n_samples = 150, nu = 0.1, noise = 0.05, scale = 4.0, shift = [0
     outliers = np.random.uniform(-scale, scale, size = (n_outliers, 2))
     return add_outliers(inliers, outliers)
 
+def get_usps_data(numbers = [0]):
+    path = 'datasets/usps.h5'
+    with h5py.File(path, 'r') as hf:
+            train = hf.get('train')
+            X_tr = train.get('data')[:]
+            y_tr = train.get('target')[:]
+            test = hf.get('test')
+            X_te = test.get('data')[:]
+            y_te = test.get('target')[:]
+    
+    indices = np.array([])
+    for n in numbers:
+        new_indices = np.array(np.where(y_tr == n))[0, :]
+        indices = np.concatenate([indices, new_indices], axis = 0)   
+        
+    indices = np.sort(np.array([int(i) for i in indices]))
+    
+    data = X_tr[indices]
+    labels = y_tr[indices]
+    occ_labels = np.ones(len(labels))
+    
+    test_data = X_te
+    test_labels = y_te
+    test_occ_labels = []
+    
+    for l in test_labels:
+        occ_label_added = False
+        for n in numbers: 
+            if l == n:
+                test_occ_labels.append(+1)
+                occ_label_added = True
+                break
+        if occ_label_added is False:
+            test_occ_labels.append(-1)
+            
+    train_dm = DataManager(data, labels, occ_labels)
+    test_dm = DataManager(test_data, test_labels,test_occ_labels)
+        
+    return train_dm, test_dm 
+
 
 def test_load_data():
-    breast_cancer_dm = load_data(bc)
-    synth1 = synth_2_modes()
-    synth2 = synth_moons()
-    #print(breast_cancer_dm.data)
-    print(synth2.occ_labels)
-    print(synth2.data)
+    # breast_cancer_dm = load_data(bc)
+    # synth1 = synth_2_modes()
+    # synth2 = synth_moons()
+    
+    # print(breast_cancer_dm.data)
+    # print(synth2.occ_labels)
+    # print(synth2.data)
+    
+    # train_dm, test_dm  = get_usps_data(numbers = [0, 3, 8])
+    # print(train_dm.labels)
+    # for i in range(100):
+    #     print(test_dm.labels[i], test_dm.occ_labels[i])
+    
+    
     
 #test_load_data()
