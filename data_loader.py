@@ -127,7 +127,4 @@ def test_load_data():
     # print(train_dm.labels)
     # for i in range(100):
     #     print(test_dm.labels[i], test_dm.occ_labels[i])
-    
-    
-    
-#test_load_data()
+    return 

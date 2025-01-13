@@ -22,6 +22,44 @@ c_base = 2.0
 min_exp_c = -1
 max_exp_c = 6
 
+class GridSearchResults:
+    def __init__(self, sorted_results, best_params, score_name, score_thr, occ_method):
+        self.sorted_results = sorted_results
+        self.best_params = best_params
+        self.score_name = score_name
+        self.score_thr = score_thr
+        self.occ_method = occ_method
+        self.abv_thr_index = self.get_abv_thr_index()
+        self.abv_thr_params = self.get_abv_thr_params()
+    
+    def get_abv_thr_index(self):
+        return np.where(self.sorted_results['mean_test_score'] > self.score_thr)[0][0]
+    
+    def get_abv_thr_params(self, prints = False):
+        if self.occ_method == occ_osvm:
+            row = self.sorted_results.iloc[self.abv_thr_index]
+            abv_thr_params = np.array([row['param_nu'], row['param_gamma']])
+            if prints: 
+                m = 3
+                print("First row abv thr = ", self.score_thr)
+                print(self.sorted_results.iloc[self.abv_thr_index])
+                print("Surrounding rows")
+                print(self.sorted_results.iloc[self.abv_thr_index - m:self.abv_thr_index + m])
+                print("Best params:")
+                print(self.best_params)
+                print("First params abv thr:")
+                print(abv_thr_params)
+            return abv_thr_params
+        elif self.occ_method == occ_lof: 
+            print("not implemented for lof yet")
+            return 
+
+            
+        
+
+        
+        
+
 def grid_search(dm : DataManager, 
                 score_name = 'f1',
                 k_fold_cv = 3,
@@ -66,25 +104,9 @@ def grid_search(dm : DataManager,
         sorted_results = pd_results[cols].sort_values(by = 'mean_test_score')
         
         best_params = np.array([gs.best_params_['nu'], gs.best_params_['gamma']])
-
         
-        # first parameters with score value above threshold
-        abv_thr_index = np.where(sorted_results['mean_test_score'] > score_thr)[0][0]
-        results_thr = sorted_results.iloc[abv_thr_index]
-        params_thr = np.array([results_thr['param_nu'], results_thr['param_gamma']])
-        
-        if prints: 
-            m = 3
-            print("First row abv thr = ", score_thr)
-            print(results_thr)
-            print("Surrounding rows")
-            print(sorted_results.iloc[abv_thr_index - m:abv_thr_index + m])
-            print("Best params:")
-            print(best_params)
-            print("First params abv thr:")
-            print(params_thr)
-            
-        return sorted_results, best_params, params_thr, results_thr, abv_thr_index
+        final_results = GridSearchResults(sorted_results, best_params, score_name=score_name, score_thr=score_thr, occ_method=occ_method)
+        return final_results
     
     elif occ_method == occ_lof:
         print("grid search not implemented yet")
@@ -93,9 +115,12 @@ def grid_search(dm : DataManager,
     
 def grid_search_test():
     train_dm, test_dm = get_usps_data(numbers = [0])
-    sorted_results, best_params, params_thr, results_thr, abv_thr_index = grid_search(train_dm, prints = False, score_thr=0.9)
+    results = grid_search(train_dm, prints = False, score_thr=0.9)
+    print(results.abv_thr_params)
+    print(results.best_params)
+    print(results.sorted_results.tail(10))
     
-# grid_search_test()
+grid_search_test()
     
     
         
