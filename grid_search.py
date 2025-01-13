@@ -5,22 +5,19 @@ from metrics import *
 from data_loader import * 
 
 
-def nu_prec_scorer(estimator, X, y_true, **kwargs):
-    y_pred = estimator.fit_predict(X)
-    return custom_nu_prec(y_true, y_pred, estimator.nu)
 
 occ_osvm = 'osvm'
 occ_lof = 'lof'
 occ_method = [occ_lof, occ_osvm]
 
-min_nu = 0.01
-max_nu = 0.05
+min_nu = 0.02
+max_nu = 0.2
 nu_step = 0.02
 
 
 c_base = 2.0
-min_exp_c = -1
-max_exp_c = 6
+min_exp_c = 0
+max_exp_c = 5
 
 class GridSearchResults:
     def __init__(self, sorted_results, best_params, score_name, score_thr, occ_method):
@@ -29,11 +26,16 @@ class GridSearchResults:
         self.score_name = score_name
         self.score_thr = score_thr
         self.occ_method = occ_method
-        self.abv_thr_index = self.get_abv_thr_index()
+        self.abv_thr_index = self.get_abv_thr_index(prints = False)
         self.abv_thr_params = self.get_abv_thr_params()
     
-    def get_abv_thr_index(self):
-        return np.where(self.sorted_results['mean_test_score'] > self.score_thr)[0][0]
+    def get_abv_thr_index(self,prints = False):
+        print(self.sorted_results.tail(10))
+        abv_thr_indices = np.where(self.sorted_results['mean_test_score'] > self.score_thr)[0]
+        if len(abv_thr_indices) == 0:
+            print("No score value above thr = ", self.score_thr)
+            return 
+        return np.array(np.where(self.sorted_results['mean_test_score'] > self.score_thr)[0])[0]
     
     def get_abv_thr_params(self, prints = False):
         if self.occ_method == occ_osvm:
@@ -52,29 +54,22 @@ class GridSearchResults:
             return abv_thr_params
         elif self.occ_method == occ_lof: 
             print("not implemented for lof yet")
-            return 
-
-            
-        
-
-        
-        
-
+            return         
+    
 def grid_search(dm : DataManager, 
                 score_name = 'f1',
                 k_fold_cv = 3,
                 occ_method = occ_osvm, 
-                score_thr = 0.95, 
+                score_thr = 0.95,
+                nu_true = 0.05,  
                 prints = False, 
                 n_points = None):
     
     if prints: 
         print("Selecting score ", score_name, "...")
-    if score_name != nu_prec and score_name != pr_auc:
-        scorer = make_scorer(select_score(score_name=score_name))
-    elif score_name == nu_prec:
-        scorer = nu_prec_scorer
-    elif score_name == pr_auc:
+    if score_name != pr_auc_name:
+        scorer = make_scorer(select_score(score_name=score_name, nu_true = nu_true))
+    elif score_name == pr_auc_name:
         print("pr_auc scorer not implemented")
         return 
     
@@ -115,12 +110,12 @@ def grid_search(dm : DataManager,
     
 def grid_search_test():
     train_dm, test_dm = get_usps_data(numbers = [0])
-    results = grid_search(train_dm, prints = False, score_thr=0.9)
+    results = grid_search(train_dm, prints = False, score_thr=0.9, score_name=nu_prec, nu_true=0.05)
     print(results.abv_thr_params)
     print(results.best_params)
     print(results.sorted_results.tail(10))
     
-grid_search_test()
+#grid_search_test()
     
     
         
