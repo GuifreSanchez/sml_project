@@ -52,12 +52,28 @@ def simple_plot2d(data2d : DataManager,
     
     
     
+def print_images(n_rows, n_cols, image_size, images, image_info, file_name = 'plot.png'):
+    fig, axes = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(int(0.6 * image_size * n_cols), int(image_size * n_rows)))
+    plt.subplots_adjust(wspace = 0.2)
+    for ax, image, label in zip(axes.ravel(), images[:n_rows * n_cols], image_info[:n_rows * n_cols]):
+        ax.set_axis_off()
+        ax.imshow(image, cmap=plt.cm.gray_r, interpolation="nearest")
+        a = label[0]
+        b = label[1]
+        ax.set_title(" %.2f (%i) " % (a, b))
+    
+    plt.tight_layout()
+    plt.savefig(file_name, dpi = 300)
+    plt.show()
+    plt.close(fig)
+    
+    
 def simple_plot2d_test():
     synth1 = synth_2_modes()
     synth2 = synth_moons()
     simple_plot2d(synth2)
     
-simple_plot2d_test()
+#simple_plot2d_test()
     
 
 def plot_2d(osvm: svm.OneClassSVM,  X, y_pred, x_range, n_inliers, n_outliers, delta_t, path = "standard_plot.png", grid_size = 200, image_size = 5,

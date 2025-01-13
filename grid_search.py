@@ -10,15 +10,6 @@ occ_osvm = 'osvm'
 occ_lof = 'lof'
 occ_method = [occ_lof, occ_osvm]
 
-min_nu = 0.02
-max_nu = 0.2
-nu_step = 0.02
-
-
-c_base = 2.0
-min_exp_c = 0
-max_exp_c = 5
-
 class GridSearchResults:
     def __init__(self, sorted_results, best_params, score_name, score_thr, occ_method):
         self.sorted_results = sorted_results
@@ -26,16 +17,26 @@ class GridSearchResults:
         self.score_name = score_name
         self.score_thr = score_thr
         self.occ_method = occ_method
+        self.abv_thr_success = False
         self.abv_thr_index = self.get_abv_thr_index(prints = False)
         self.abv_thr_params = self.get_abv_thr_params()
+        
     
     def get_abv_thr_index(self,prints = False):
-        print(self.sorted_results.tail(10))
+        if prints: 
+            print(self.sorted_results.tail(10))
         abv_thr_indices = np.where(self.sorted_results['mean_test_score'] > self.score_thr)[0]
         if len(abv_thr_indices) == 0:
-            print("No score value above thr = ", self.score_thr)
-            return 
-        return np.array(np.where(self.sorted_results['mean_test_score'] > self.score_thr)[0])[0]
+            if prints: 
+                print("No score value above thr = ", self.score_thr)
+        else:
+            self.abv_thr_success = True
+            
+        abv_thr_index = len(self.sorted_results) - 1
+        if self.abv_thr_success == True:
+            abv_thr_index = np.array(np.where(self.sorted_results['mean_test_score'] > self.score_thr)[0])[0]
+            
+        return abv_thr_index
     
     def get_abv_thr_params(self, prints = False):
         if self.occ_method == occ_osvm:
@@ -53,9 +54,13 @@ class GridSearchResults:
                 print(abv_thr_params)
             return abv_thr_params
         elif self.occ_method == occ_lof: 
-            print("not implemented for lof yet")
-            return         
+            row = self.sorted_results.iloc[self.abv_thr_index]
+            abv_thr_params = np.array([row['param_n_neighbors']])
+            return abv_thr_params
     
+    
+MAX_POINTS = 1500
+
 def grid_search(dm : DataManager, 
                 score_name = 'f1',
                 k_fold_cv = 3,
@@ -63,7 +68,13 @@ def grid_search(dm : DataManager,
                 score_thr = 0.95,
                 nu_true = 0.05,  
                 prints = False, 
-                n_points = None):
+                n_points = None, 
+                min_nu = 0.02,
+                max_nu = 0.2, 
+                nu_step = 0.02, 
+                c_base = 10.0,
+                min_exp_c = 0,
+                max_exp_c = 5):
     
     if prints: 
         print("Selecting score ", score_name, "...")
@@ -83,9 +94,9 @@ def grid_search(dm : DataManager,
         osvm = svm.OneClassSVM()
         gs = GridSearchCV(estimator=osvm, param_grid=param_grid, scoring=scorer, cv=k_fold_cv)
         
-        max_index = len(dm.data)
+        max_index = np.min([len(dm.data),MAX_POINTS])
         if n_points is not None: 
-            max_index = n_points
+            max_index = np.min([n_points, MAX_POINTS])
         data, occ_labels = dm.data[:max_index], dm.occ_labels[:max_index]
         
         if prints: 
@@ -104,8 +115,33 @@ def grid_search(dm : DataManager,
         return final_results
     
     elif occ_method == occ_lof:
-        print("grid search not implemented yet")
-        return 
+        n_neighbors_params = [5, 10, 20, 50, 100, 200]
+        param_grid = {
+            'n_neighbors': n_neighbors_params,
+        }
+        lof = LocalOutlierFactor(novelty=True)
+        gs = GridSearchCV(estimator=lof, param_grid=param_grid, scoring=scorer, cv=k_fold_cv)
+        
+        max_index = np.min([len(dm.data),MAX_POINTS])
+        if n_points is not None: 
+            max_index = np.min([n_points, MAX_POINTS])
+        data, occ_labels = dm.data[:max_index], dm.occ_labels[:max_index]
+        
+        if prints: 
+            print("Performing grid search on ", len(n_neighbors_params), " parameter combinations ...")
+        
+        gs.fit(data, occ_labels)
+        
+        results = gs.cv_results_
+        pd_results = pd.DataFrame(results)
+        cols = [ "param_n_neighbors", "mean_test_score", "rank_test_score"]
+        
+        sorted_results = pd_results[cols].sort_values(by = 'mean_test_score')
+        
+        best_params = np.array([gs.best_params_['n_neighbors']])
+        
+        final_results = GridSearchResults(sorted_results, best_params, score_name=score_name, score_thr=score_thr, occ_method=occ_method)
+        return final_results
     
     
 def grid_search_test():

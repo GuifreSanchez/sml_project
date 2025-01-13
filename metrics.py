@@ -6,14 +6,38 @@ def custom_recall(y_true, y_pred):
 def custom_precision(y_true, y_pred):
     return custom_metric(y_true, y_pred, metric = 'precision')
 
-def custom_nu_prec(y_true, y_pred, nu):
+
+prec_w = 0.5
+nu_w = 1.0 - prec_w
+def custom_nu_prec(y_true, y_pred, nu_true = 0.05):
     precision = custom_precision(y_true, y_pred)
+    nu_score = custom_nu_score(y_true, y_pred, nu_true = nu_true)
+    return prec_w * precision + nu_w * nu_score
+
+def custom_param_nu_prec(nu_true =0.05):
+    def func(y_true, y_pred):
+        return custom_nu_prec(y_true, y_pred, nu_true = nu_true)
+    return func
+
+rec_w = 0.75
+nu_w = 1.0 - rec_w
+def custom_nu_rec(y_true, y_pred, nu_true = 0.05):
+    recall = custom_recall(y_true, y_pred)
+    nu_score = custom_nu_score(y_true, y_pred, nu_true = nu_true)
+    return rec_w * recall + nu_w * nu_score
+
+def custom_param_nu_rec(nu_true =0.05):
+    def func(y_true, y_pred):
+        return custom_nu_rec(y_true, y_pred, nu_true = nu_true)
+    return func
+
+def custom_nu_score(y_true, y_pred, nu_true = 0.05):
     tp, tn, fp, fn = custom_metric(y_true, y_pred, metric = 'info')
     N = tn + fn
     P = tp + fp
     nu_pred = N / (N + P)
-    nu_dist_inv = 1 / (1 + (nu - nu_pred)**2)
-    return precision + nu_dist_inv
+    nu_dist_inv = 2 / (1 + (nu_pred - nu_true)**2) - 1
+    return nu_dist_inv
     
 
 def custom_metric(y_true, y_pred, metric = 'precision'):
@@ -68,27 +92,33 @@ def custom_f1(y_true, y_pred):
 def custom_pr_auc(y_true, y_scores):
     precision, recall, _ = precision_recall_curve(y_true, y_scores)
     result = auc(recall, precision)
-    return result, precision, recall
+    return result
 
-f1 = 'f1'
-rec = 'recall'
-prec = 'precision'
-nu_prec = 'nu_precision' 
-pr_auc = 'pr_auc'
+f1_name = 'f1'
+rec_name = 'recall'
+prec_name = 'precision'
+nu_prec_name = 'nu_precision' 
+nu_rec_name = 'nu_recall'
+pr_auc_name = 'pr_auc'
+nu_name = 'nu'
 
-score_names = [f1, rec, prec, nu_prec, pr_auc]
+score_names = [f1_name, rec_name, prec_name, nu_prec_name, pr_auc_name, nu_name]
 
-def select_score(score_name = 'f1'):
-    if score_name == f1:
+def select_score(score_name = 'f1', nu_true = 0.05):
+    if score_name == f1_name:
         return custom_f1
-    elif score_name == rec:
+    elif score_name == rec_name:
         return custom_recall
-    elif score_name == prec: 
+    elif score_name == prec_name: 
         return custom_precision
-    elif score_name == nu_prec:
-        return custom_nu_prec
-    elif score_name == pr_auc:
+    elif score_name == nu_prec_name:
+        return custom_param_nu_prec(nu_true = nu_true)
+    elif score_name == nu_rec_name:
+        return custom_param_nu_rec(nu_true = nu_true)
+    elif score_name == pr_auc_name:
         return custom_pr_auc
+    elif score_name == nu_name: 
+        return custom_nu_score
     else:
         print("selected score not implemented")
         return 

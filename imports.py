@@ -1,6 +1,7 @@
 from sklearn.datasets import make_blobs, make_moons, make_circles
 import time
 import pandas as pd
+import random
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
