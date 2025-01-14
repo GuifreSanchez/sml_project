@@ -1,0 +1,128 @@
+[EXPERIMENTS W/ GRID SEARCH]
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[90.58 97.74 84.4  54.49 68.92 96.17]
+[61.66 47.76 86.96 35.12 76.46 78.46]
+[75.79 63.72 93.51 56.53 94.8  67.81]
+train, test, nu_true =  1194 2007 0.05
+[0.08, 0.03125]
+train, test, nu_true =  1395 2007 0.05
+[0.02, 0.03125]
+train, test, nu_true =  4240 2007 0.05
+[0.02, 0.03125]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[97.14 99.13 95.24 74.49 96.36 99.86]
+[96.03 93.89 98.27 71.85 98.6  92.34]
+[90.01 95.33 85.26 72.23 88.51 97.48]
+[94.05 96.32 91.88 73.06 93.81 96.43]
+train, test, nu_true =  367 367 0.027247956403269755
+[0.06, 0.0001]
+train, test, nu_true =  1600 1600 0.0625
+[0.02, 1e-05]
+train, test, nu_true =  809 809 0.11124845488257108
+[0.19999999999999998, 0.0001]
+train, test, nu_true =  6916 6916 0.03614806246385194
+[0.08, 1.0]
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[83.22 72.28 98.05 44.47 81.86 98.24]
+[33.87 20.43 99.18 35.04 99.21 85.82]
+[75.48 62.42 95.45 56.11 96.48 88.14]
+train, test, nu_true =  1194 2007 0.05
+[5]
+train, test, nu_true =  1395 2007 0.05
+[5]
+train, test, nu_true =  4240 2007 0.05
+[50]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[97.91 97.5  98.32 73.75 98.74 99.18]
+[96.74 93.75 99.93 71.68 99.76 97.01]
+[93.96 88.94 99.58 68.91 99.13 85.62]
+[95.43 96.94 93.97 73.42 95.43 98.04]
+train, test, nu_true =  367 367 0.027247956403269755
+[5]
+train, test, nu_true =  1600 1600 0.0625
+[200]
+train, test, nu_true =  809 809 0.11124845488257108
+[5]
+train, test, nu_true =  6916 6916 0.03614806246385194
+[5]
+
+
+[EXPERIMENTS W/O GRID SEARCH]
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[81.15 73.53 90.53 44.39 75.52 93.06]
+[46.18 30.93 91.03 33.26 86.07 74.42]
+[73.   60.15 92.84 55.01 94.56 59.44]
+train, test, nu_true =  1194 2007 0.05
+[0.05, 0.0078125]
+train, test, nu_true =  1395 2007 0.05
+[0.05, 0.0078125]
+train, test, nu_true =  4240 2007 0.05
+[0.05, 0.0078125]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[74.87 98.18 60.5  67.98 64.26 98.43]
+[78.31 94.88 66.67 68.83 71.4  97.21]
+[91.38 89.91 92.91 69.91 94.64 91.71]
+[96.27 96.29 96.25 73.15 97.19 96.33]
+train, test, nu_true =  367 367 0.027247956403269755
+[0.027247956403269755, 'auto']
+train, test, nu_true =  1600 1600 0.0625
+[0.0625, 'auto']
+train, test, nu_true =  809 809 0.11124845488257108
+[0.11124845488257108, 'auto']
+train, test, nu_true =  6916 6916 0.03614806246385194
+[0.03614806246385194, 'auto']
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[76.54 62.54 98.61 40.85 83.53 98.53]
+[32.09 19.14 99.18 34.57 99.39 85.51]
+[76.75 63.65 96.63 56.69 97.34 91.78]
+train, test, nu_true =  1194 2007 0.05
+[20]
+train, test, nu_true =  1395 2007 0.05
+[20]
+train, test, nu_true =  4240 2007 0.05
+[20]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[98.01 99.71 96.36 74.8  97.22 99.97]
+[96.96 94.16 99.93 71.91 99.79 99.23]
+[94.58 90.06 99.58 69.59 99.25 98.11]
+[93.62 97.18 90.32 73.36 92.51 97.67]
+train, test, nu_true =  367 367 0.027247956403269755
+[20]
+train, test, nu_true =  1600 1600 0.0625
+[20]
+train, test, nu_true =  809 809 0.11124845488257108
+[20]
+train, test, nu_true =  6916 6916 0.03614806246385194
+[20]

@@ -174,8 +174,8 @@ def experiments_usps(prints = False, gs_mode = True, occ_method = occ_osvm):
         [2, 6],
         [0, 1, 2, 3, 4]
     ]
-    
-    score_thrs = [0.95, 0.95, 0.95]
+    thr = 0.9
+    score_thrs = [thr, thr, thr]
     
     reports = []
     i = 0
@@ -192,17 +192,18 @@ def experiments_usps(prints = False, gs_mode = True, occ_method = occ_osvm):
         print(report.get_metrics_x100())
         
     for report in reports: 
+        print("train, test, nu_true = ", len(report.train_dm.data), len(report.test_dm.data), report.nu_true)
         print(report.occ_parameters)
         
 # datasets = [bc, shuttle, letter, sat, pen_global, annthyroid, aloi]
 def experiments_datasets(prints = False, gs_mode = True, occ_method = occ_osvm):
     
-    score_thr =0.99
+    score_thr =0.95
     datasets = {
-        bc: score_thr, 
-        letter: score_thr, 
-        pen_global:score_thr, 
-        annthyroid:score_thr
+        bc: score_thr - 0.0272, 
+        letter: score_thr-0.0625, 
+        pen_global:score_thr-0.111, 
+        annthyroid:score_thr-0.0361
         }
     
     reports = []
@@ -218,6 +219,7 @@ def experiments_datasets(prints = False, gs_mode = True, occ_method = occ_osvm):
         print(report.get_metrics_x100())
         
     for report in reports: 
+        print("train, test, nu_true = ", len(report.train_dm.data), len(report.test_dm.data), report.nu_true)
         print(report.occ_parameters)
 
 def outlier_detection_test():
@@ -243,4 +245,6 @@ def all_experiments():
     experiments_usps(prints = True, gs_mode = gs_mode, occ_method = occ_lof)
     experiments_datasets(prints = True, gs_mode = gs_mode, occ_method = occ_lof)
     
+    
+all_experiments()
     

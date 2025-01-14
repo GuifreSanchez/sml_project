@@ -1,0 +1,100 @@
+[EXPERIMENTS W/ GRID SEARCH]
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[90.01 93.67 86.63 52.79 70.92 95.67]
+[57.93 43.85 85.33 33.91 75.98 77.79]
+[75.33 63.54 92.5  56.38 93.98 68.14]
+[0.04, 0.03125]
+[0.04, 0.03125]
+[0.02, 0.03125]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[98.32 98.32 98.32 74.16 98.74 97.9 ]
+[96.03 93.89 98.27 71.85 98.6  92.34]
+[93.85 89.52 98.61 69.36 98.55 95.47]
+[97.14 96.34 97.96 73.16 98.46 96.35]
+[0.02, 1e-05]
+[0.02, 1e-05]
+[0.02, 1e-05]
+[0.02, 0.001]
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[83.37 72.67 97.77 44.6  81.59 98.11]
+[33.92 20.47 98.91 35.03 98.98 85.08]
+[78.66 66.06 97.22 57.71 97.6  93.31]
+[5]
+[5]
+[5]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[96.42 98.54 94.4  74.19 95.71 99.03]
+[96.74 93.75 99.93 71.68 99.76 97.01]
+[95.41 91.45 99.72 70.41 99.47 97.01]
+[95.43 96.94 93.97 73.42 95.43 98.04]
+[200]
+[200]
+[50]
+[5]
+
+
+[EXPERIMENTS W/O GRID SEARCH]
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[80.3  71.96 90.81 43.78 75.9  92.53]
+[45.8  30.75 89.67 33.02 84.9  73.52]
+[72.85 60.15 92.33 54.99 94.16 59.09]
+[0.05, 0.0078125]
+[0.05, 0.0078125]
+[0.05, 0.0078125]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[74.87 98.18 60.5  67.98 64.26 98.43]
+[78.31 94.88 66.67 68.83 71.4  97.21]
+[91.38 89.91 92.91 69.91 94.64 91.71]
+[96.27 96.29 96.25 73.15 97.19 96.33]
+[0.027247956403269755, 'auto']
+[0.0625, 'auto']
+[0.11124845488257108, 'auto']
+[0.03614806246385194, 'auto']
+USPS experiment with numbers = 
+[0]
+USPS experiment with numbers = 
+[2, 6]
+USPS experiment with numbers = 
+[0, 1, 2, 3, 4]
+[76.57 62.7  98.33 40.88 83.27 98.49]
+[32.12 19.16 99.18 34.58 99.39 85.  ]
+[76.72 63.68 96.46 56.69 97.2  91.64]
+[20]
+[20]
+[20]
+Outlier detection experiment dataset =  breast-cancer
+Outlier detection experiment dataset =  letter
+Outlier detection experiment dataset =  pen-global
+Outlier detection experiment dataset =  annthyroid
+[98.01 99.71 96.36 74.8  97.22 99.97]
+[96.96 94.16 99.93 71.91 99.79 99.23]
+[94.58 90.06 99.58 69.59 99.25 98.11]
+[93.62 97.18 90.32 73.36 92.51 97.67]
+[20]
+[20]
+[20]
+[20]

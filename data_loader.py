@@ -83,6 +83,26 @@ def get_usps_data(numbers = [0]):
             X_te = test.get('data')[:]
             y_te = test.get('target')[:]
     
+    # One-hot encoding if needed
+    # new_X_tr = []
+    # one_hot_digit = np.zeros(10)
+    # for i in range(len(X_tr)):
+    #     image = np.array(X_tr[i])
+    #     one_hot_digit[y_tr[i]] = 1
+    #     image_one_hot_digit = np.concatenate([image, one_hot_digit], axis = 0)
+    #     new_X_tr.append(image_one_hot_digit)
+    # new_X_tr = np.array(new_X_tr)
+    
+    # new_X_te = []
+    # one_hot_digit = np.zeros(10)
+    # for i in range(len(X_te)):
+    #     image = np.array(X_te[i])
+    #     one_hot_digit[y_te[i]] = 1
+    #     image_one_hot_digit = np.concatenate([image, one_hot_digit], axis = 0)
+    #     new_X_te.append(image_one_hot_digit)
+    # new_X_te = np.array(new_X_te)
+        
+        
     indices = np.array([])
     for n in numbers:
         new_indices = np.array(np.where(y_tr == n))[0, :]

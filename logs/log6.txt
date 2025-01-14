@@ -1,0 +1,38 @@
+
+
+dataset train size test size nu1 nu2 gamma k
+USPS 0 1194 2007 0.05 0.08 0.03125
+
+OSVM
+train, test, nu_true =  1194 2007 0.05
+[0.08, 0.03125]
+train, test, nu_true =  1395 2007 0.05
+[0.02, 0.03125]
+train, test, nu_true =  4240 2007 0.05
+[0.02, 0.03125]
+
+train, test, nu_true =  367 367 0.027247956403269755
+[0.06, 0.0001]
+train, test, nu_true =  1600 1600 0.0625
+[0.02, 1e-05]
+train, test, nu_true =  809 809 0.11124845488257108
+[0.19999999999999998, 0.0001]
+train, test, nu_true =  6916 6916 0.03614806246385194
+[0.08, 1.0]
+
+LOF
+train, test, nu_true =  1194 2007 0.05
+[5]
+train, test, nu_true =  1395 2007 0.05
+[5]
+train, test, nu_true =  4240 2007 0.05
+[50]
+
+train, test, nu_true =  367 367 0.027247956403269755
+[5]
+train, test, nu_true =  1600 1600 0.0625
+[200]
+train, test, nu_true =  809 809 0.11124845488257108
+[5]
+train, test, nu_true =  6916 6916 0.03614806246385194
+[5]
