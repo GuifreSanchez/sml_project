@@ -246,5 +246,5 @@ def all_experiments():
     experiments_datasets(prints = True, gs_mode = gs_mode, occ_method = occ_lof)
     
     
-all_experiments()
+# all_experiments()
     
